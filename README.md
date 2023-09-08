@@ -43,14 +43,14 @@
 ### 1. 로컬 캐싱 구현 
     - cache storage api를 사용
     - isCachedExpired 함수를 만들어 expire_time이 지났는지 확인
-        <details>
-            <summary><b>👈코드 보기</b></summary>
-            <div markdown="1">
-                <ul>
-                    https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/utils/cacheStorage.ts#L4-L11
-                </ul>
-            </div>
-        </details>
+<details>
+    <summary><b>👈코드 보기</b></summary>
+    <div markdown="1">
+        <ul>
+            https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/utils/cacheStorage.ts#L4-L11
+        </ul>
+    </div>
+</details>
 
     - getCachedList 함수
         - caches.open('search-cache'): 'search-cache'라는 이름의 캐시를 엽니다. 만약 이 이름의 캐시가 이미 있으면 그것을 반환하고, 없으면 새로 만들어 반환합니다.
