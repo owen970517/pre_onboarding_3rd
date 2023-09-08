@@ -20,9 +20,9 @@
 
 
 ## 3. 실행 화면
-    <div align="center" >
-        <img src="https://github.com/wanted-pre-onboarding-12th-11/pre-onboarding-12th-3-11/assets/75247323/15827013-ae13-45f0-aafe-6587cbab7768" />
-    </div>
+<div align="center" >
+    <img src="https://github.com/wanted-pre-onboarding-12th-11/pre-onboarding-12th-3-11/assets/75247323/15827013-ae13-45f0-aafe-6587cbab7768" />
+</div>
 
 ## 4. 주요 기능
 
