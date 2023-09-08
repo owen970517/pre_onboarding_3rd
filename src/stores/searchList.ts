@@ -29,14 +29,16 @@ const searchSlice = createSlice({
             if (existingIndex !== -1) {
                 state.searchedList.splice(existingIndex,1)
             }
+            if (state.searchedList.length >= 7) {
+                state.searchedList.pop()
+            }
             state.searchedList = [action.payload,...state.searchedList]
         },
         setSearchList(state,action) {
             state.searchList = action.payload
         },
         setFilteredList(state,action) {
-            // state.filtredList = state.searchList.filter((data) => data.sickNm.includes(action.payload))
-            state.filtredList = action.payload.filter((data:searchProps) => data.sickNm.includes(state.searchValue))
+            state.filtredList = action.payload
         }
     }
 })
