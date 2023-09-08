@@ -47,7 +47,7 @@
     <summary><b>👈코드 보기</b></summary>
     <div markdown="1">
         <ul>
-            https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/utils/cacheStorage.ts#L4-L11
+            https://github.com/owen970517/pre_onboarding_3rd/blob/21eea234ee1edbbaf3dcb2a3ccf53f5525b0fa73/src/utils/cacheStorage.ts#L4-L11
         </ul>
     </div>
 </details>
@@ -59,14 +59,14 @@
         - 만약 응답이 만료되었다면 (if (isExpired(response)) {...}), 해당 요청을 캐시에서 삭제하고 null을 반환합니다.
         - 만약 응답이 아직 유효하다면 (else {...}), 해당 응답 객체를 그대로 반환합니다.
         - 일치하는 응답이 없다면 null을 반환합니다.
-        <details>
-            <summary><b>👈코드 보기</b></summary>
-            <div markdown="1">
-                <ul>
-                    https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/utils/cacheStorage.ts#L13-L28
-                </ul>
-            </div>
-        </details>
+<details>
+    <summary><b>👈코드 보기</b></summary>
+    <div markdown="1">
+        <ul>
+            https://github.com/owen970517/pre_onboarding_3rd/blob/21eea234ee1edbbaf3dcb2a3ccf53f5525b0fa73/src/utils/cacheStorage.ts#L13-L28
+        </ul>
+    </div>
+</details>
 
     - setCacheList
         - 전달 받은 변수 이름의 캐시를 엽니다. 만약 이 이름의 캐시가 이미 있으면 그것을 반환하고, 없으면 새로 만들어 반환합니다.
@@ -74,49 +74,40 @@
         - HTTP 헤더에 'SET_DATE'라는 필드를 추가하고, 현재 시간을 ISO 형식의 문자열로 변환하여 그 값으로 설정합니다.
         - 주어진 데이터를 JSON 문자열로 변환하고, 앞서 설정한 헤더와 함께 응답 객체를 생성합니다.
         - 주어진 값을 키로 사용하여 앞서 생성한 응답 객체를 캐시에 저장합니다.
-        <details>
-            <summary><b>👈코드 보기</b></summary>
-            <div markdown="1">
-                <ul>
-                    https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/utils/cacheStorage.ts#L30-L36
-                </ul>
-            </div>
-        </details>
+<details>
+    <summary><b>👈코드 보기</b></summary>
+    <div markdown="1">
+        <ul>
+            https://github.com/owen970517/pre_onboarding_3rd/blob/21eea234ee1edbbaf3dcb2a3ccf53f5525b0fa73/src/utils/cacheStorage.ts#L30-L36
+        </ul>
+    </div>
+</details>
 
 ### 2. 입력마다 API 호출하지 않도록 횟수 줄이는 방법
     - 캐싱을 통해 동일한 입력값이 있을 경우 캐싱된 값을 호출하도록 구현
     - 입력값이 아무것도 없을 경우 호출 안함 
     - useDebounce 커스텀 훅을 사용하여, 설정한 시간 후 호출되도록 출력
-        <details>
-            <summary><b>👈코드 보기</b></summary>
-            <div markdown="1">
-                <ul>
-                    https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/hooks/useDebounce.ts#L1-L17
-                </ul>
-            </div>
-        </details>
-
-        <details>
-            <summary><b>👈코드 보기</b></summary>
-            <div markdown="1">
-                <ul>
-                    https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/containers/SearchPreview.tsx#L18
-                </ul>
-            </div>
-        </details>
+<details>
+    <summary><b>👈코드 보기</b></summary>
+    <div markdown="1">
+        <ul>
+            https://github.com/owen970517/pre_onboarding_3rd/blob/21eea234ee1edbbaf3dcb2a3ccf53f5525b0fa73/src/hooks/useDebounce.ts#L3-L17
+        </ul>
+    </div>
+</details>
 
 ### 3. 키보드만으로 추천 검색어들로 이동 가능하도록 구현
 
     - 검색어 입력 시 추천 검색어가 없다면 '검색어 없음' 출력
     - 추천 검색어가 있을 경우 상위 7개만 보여주도록 구현, 위/아래 방향키로 이동 및 엔터키 입력 구현
-        <details>
-            <summary><b>👈코드 보기</b></summary>
-            <div markdown="1">
-                <ul>
-                    https://github.com/owen970517/pre_onboarding_3rd/blob/main/src/containers/SearchPreview.tsx#L23-L41
-                </ul>
-            </div>
-        </details>
+<details>
+    <summary><b>👈코드 보기</b></summary>
+    <div markdown="1">
+        <ul>
+            https://github.com/owen970517/pre_onboarding_3rd/blob/21eea234ee1edbbaf3dcb2a3ccf53f5525b0fa73/src/containers/SearchPreview.tsx#L23-L41
+        </ul>
+    </div>
+</details>
 
 
 ## 6. 폴더 구조
