@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./pages/Home";
 import store from "./stores/store";
@@ -11,6 +11,10 @@ export const Router = createBrowserRouter([
             <App />
         </Provider>,
         children : [
+            {
+                path: '/',
+                element: <Navigate to='/home' replace={true} />,
+            },
             {
                 path : '/home',
                 element : <Home/>
