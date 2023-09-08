@@ -1,47 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../stores/store'
 import { searchActions } from '../stores/searchList';
 import useDebounce from '../hooks/useDebounce';
 import styled from 'styled-components';
 import { isValidInput } from '../utils/ValidInput';
-import { getSearchedList } from '../apis/search';
-
+import { useSearchedList } from '../hooks/useSearchedList';
+import { useInput } from '../hooks/useInput';
+import LatestList from '../components/LatestList';
+import RecommendList from '../components/RecommendList';
+import PreviewList from '../components/PreviewList';
 
 const SearchPreview = () => {
   const dispatch = useDispatch();
   const { searchValue,filtredList,nowIndex,searchedList,isFocus } = useSelector((state:RootState) => state.searchList)
+  const {handleSearched} = useInput()
   const debouncedValue = useDebounce(searchValue,400)
   const isValid = isValidInput(debouncedValue)
-
-  useEffect(() => {
-    const fetchAPI = async () => {
-      try {
-        if(isValid || debouncedValue === '') {
-          const response = await getSearchedList(debouncedValue);
-          dispatch(searchActions.setFilteredList(response));
-          dispatch(searchActions.setNowIndex(-1));
-        } 
-      } catch (error) {
-        console.error('API 호출 오류:', error);
-      }
-    };
-    fetchAPI();
-  }, [debouncedValue, dispatch, isValid]);
+  const {isLoading} = useSearchedList(debouncedValue,isValid)
+  const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleKeyDown = (event:KeyboardEvent) => {
-      if (event.key === 'ArrowUp' && nowIndex > -1 ) {
-        dispatch(searchActions.setNowIndex(nowIndex - 1));
+      if (event.key === 'ArrowUp' && nowIndex >= 0 ) {
+        event.preventDefault();
+        dispatch(searchActions.setNowIndex(nowIndex-1));
       } 
       if (event.key === 'ArrowDown' && nowIndex <= filtredList.slice(0,6).length -1  ) {
-        dispatch(searchActions.setNowIndex(nowIndex + 1));
+        dispatch(searchActions.setNowIndex(nowIndex+1));
       }
       if (event.key ==='Enter' && nowIndex >= 0 ) {
-        dispatch(searchActions.setSearchedList(filtredList[nowIndex].sickNm))
-        dispatch(searchActions.setIsFocus(false))
-        dispatch(searchActions.setSearchValue(''))
-        alert(`${filtredList[nowIndex].sickNm}을 검색했습니다.`)
+        handleSearched(event,filtredList[nowIndex].sickNm)
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -51,65 +40,51 @@ const SearchPreview = () => {
     };
   }, [nowIndex, dispatch, filtredList]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        dispatch(searchActions.setIsFocus(false))
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dispatch]);
+
   return (
     <>
       {isFocus &&
-        <Wrapper>
-          { searchedList.length <= 0 ?  
-            <h1>최근 검색어가 없습니다.</h1>:
-            <>
-              {searchedList.map((item,index) => (
-                <p key={index}>{item}</p>
-              ))}
-            </> 
-          }
-          {filtredList.length <= 0 ? 
-            <h1>검색어 없음</h1> :
-          <StyledList>
-            {filtredList.slice(0,7).map((filter,index) => (
-              <StyledListItem key={filter.sickCd} $isselected={index === nowIndex}>{filter.sickNm}</StyledListItem>
-            ))}
-          </StyledList>
-          }
-        </Wrapper>
+        <RecommendContainer ref={searchRef}>
+          {isLoading && <SectionTitle>검색중...</SectionTitle>}
+          {searchedList.length !== 0 && debouncedValue === '' && <LatestList/> }
+          {searchedList.length ===0 && !debouncedValue && <SectionTitle>최근 검색어가 없습니다.</SectionTitle>}
+          {debouncedValue === '' && <RecommendList/>}
+          {filtredList.length <= 0 && debouncedValue !== '' && !isLoading ? <SectionTitle>검색어 없음</SectionTitle> :<PreviewList/>}
+        </RecommendContainer>
       }
     </>
   )
 }
 
-const StyledList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
-
-const Wrapper = styled.div`
-  padding: 10px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover,
-  &.selected {
-    background-color: rgba(128, 128, 128, 0.1);
-  }
-  span {
-    margin-left: 20px;
+const RecommendContainer = styled.div`
+  padding: 20px 0;
+  margin-top: 5px;
+  width: 490px;
+  border-radius: 30px;
+  background-color: #ffffff;
+  svg {
+    color: gray;
   }
 `;
 
-const StyledListItem = styled.li<{$isselected:boolean}>`
-  padding: 10px;
-  cursor: pointer;
-
-  background-color: ${(props) => (props.$isselected ? '#007bff' : 'transparent')};
-  color: ${(props) => (props.$isselected ? '#fff' : 'inherit')};
-
-  &:hover {
-    background-color: #007bff;
-    color : #fff;
-  }
+const SectionTitle = styled.div`
+  width: 90%;
+  padding: 15px 4px 8px 4px;
+  margin: 6px auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: #53585d;
 `;
 
 
